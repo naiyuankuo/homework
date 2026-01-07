@@ -41,8 +41,9 @@
 
 ## 📊 實作截圖證明
 *在此處插入你最成功的兩張截圖：*
-1.  **[截圖 1]**：AI 回報 Agent 列表（證明數據端連通）。
-2.  **[截圖 2]**：AI 分析 Level 7~12 告警並給出建議（證明威脅狩獵功能）。
+1.  <img width="1919" height="1019" alt="螢幕擷取畫面 2026-01-06 215420" src="https://github.com/user-attachments/assets/dc799d28-af76-494c-a34f-ef1cb7ac4a23" />
+
+2.  <img width="1919" height="1015" alt="image" src="https://github.com/user-attachments/assets/c711d52b-ceaa-47d9-be41-d911e8e9ccc5" />
 
 ---
 
