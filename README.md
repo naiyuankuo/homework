@@ -1,44 +1,77 @@
-# 實作成果展示：基於 AI Agent 的 Wazuh 威脅狩獵指揮中心
-**實作項目**：第一題 - 使用 Docker 與 MCP 協議實現對話式資安防護監控
+# Wazuh AI Command Center: 基於 MCP 協議之對話式威脅狩獵系統
+
+> **實作成果展示**：本專案成功實作了透過 **AI Agent (Claude)** 結合 **Model Context Protocol (MCP)** 協議，對 **Wazuh SIEM** 進行自然語言導向的資安防護監測與威脅狩獵。
 
 ---
 
-## 📂 實作核心概念
-本專案成功將 **Wazuh SIEM** 與 **Claude AI Agent** 整合。資安人員不再需要查詢複雜的資料庫語法，只需透過 **自然語言聊天 (Chat)**，即可由 AI 自動調用底層工具，進行全方位的威脅狩獵與資產狀態清查。
-
-## 🛠️ 技術實現紀錄 (Technical Implementation)
-1.  **容器化部署 (Dockerized)**：
-    *   利用 Docker 部署全套 Wazuh 堆疊（Indexer, Manager, Dashboard）。
-    *   手動編譯 **Rust 版本 MCP Server** 並封裝為 Docker 映像檔 `wazuh-mcp-server`。
-2.  **MCP 協議整合**：
-    *   實作 **Model Context Protocol (MCP)**，將 Wazuh API 轉換為 AI 可識別的 **Functions/Tools**。
-    *   解決 Docker 跨容器網路連線問題，確保數據傳輸的安全與穩定。
-3.  **AI 聯動配置**：
-    *   配置 Claude Desktop 設定檔，實作 AI 工具調用邏輯，賦予 LLM 讀取資安日誌的能力。
+## 專案背景與目標
+在傳統資安維運 (SOC) 中，分析師必須手動查詢複雜的日誌與儀表板。本實作的核心目標是建立一套 **「AI-Security Bridge」**，將 Wazuh 的強大監控能力封裝為 AI 的實體工具。
+*   **核心技術**：Model Context Protocol (MCP)
+*   **目標**：讓管理員透過簡單的 **Chat (對話)** 即可獲取實時資產清查、漏洞分析與威脅報告。
 
 ---
 
-## 🚀 功能展示 (Demonstration)
+## 系統架構 (Architecture)
+系統採用全容器化架構：
 
-### 1. 自然語言資產清查 (Asset Inventory)
-*   **指令**：「請列出目前環境中所有的 Wazuh Agents 狀態。」
-*   **成果**：AI 成功抓取 Docker 內部的 Manager 數據，即時回報主機在線狀態與 IP，證明連線完全打通。
-
-### 2. 對話式威脅狩獵 (Threat Hunting via Chat)
-*   **指令**：「查詢最近一小時內 Level 10 以上的嚴重告警，並幫我分析攻擊行為。」
-*   **成果**：AI 自動過濾大數據日誌，識別出 **CIS Benchmark 合規性弱點**，並總結出 SSH 權限、密碼策略等風險項目。
-
-### 3. 智能資安建議與回應
-*   **成果**：AI 針對偵測到的弱點，主動提供 **Bash 修復指令** 與 **pfSense 防火牆阻擋建議**，展現了 AI 作為資安大腦的推理能力。
+1.  **Wazuh Stack**: 
+    *   使用 **Docker** 部署 Wazuh Indexer 與 Manager，作為數據採集與儲存的核心。
+2.  **Wazuh MCP Server**: 
+    *   以 **Rust** 語言實作的高效能 MCP 伺服器，將 Wazuh REST API 轉化為 AI 可直接調用的 **Function Call**。
+3.  **Claude AI **: 
+    *   透過 Claude Desktop 整合，將 LLM 賦予「理解資安情資」的能力，實現自動化分析與推理。
 
 ---
 
-## 📊 實作截圖證明
-1.  <img width="1919" height="1019" alt="螢幕擷取畫面 2026-01-06 215420" src="https://github.com/user-attachments/assets/dc799d28-af76-494c-a34f-ef1cb7ac4a23" />
+## 🛠️ 技術實現細節 (Technical Implementation)
 
-2.  <img width="1919" height="1015" alt="image" src="https://github.com/user-attachments/assets/c711d52b-ceaa-47d9-be41-d911e8e9ccc5" />
+### 1. 容器化工具鏈開發 (Dockerfile)
+為確保 AI 調用工具的效能，採用了 **Rust 多階段編譯 (Multi-stage Build)**：
+*   **編譯環境**：`rust:1.86-slim`，負責編譯 MCP 原始碼並處理系統依賴。
+*   **運行環境**：`debian:bookworm-slim`，僅保留二進位執行檔，達成映像檔輕量化，顯著降低 AI 喚醒延遲。
+
+### 2. 跨容器連動與 API 配置
+*   **網路連動**：實作 Docker 自定義網路橋接，確保 MCP Server 容器能安全地存取 `wazuh-manager` 的 API 端口 (55000)。
+*   **認證機制**：解決了 401 Unauthorized 驗證問題，透過環境變數注入 API 憑證，確保 AI 獲取日誌的合法性。
+
+### 3. AI 工具調用邏輯 (Function Calling)
+*   實作 `get_wazuh_agents`、`get_wazuh_alerts` 等核心工具。
+*   讓 AI 具備「過濾大數據日誌」的能力，將 JSON 數據轉化為結構化的中文資安建議。
 
 ---
 
-## 💡 總結
-本實作成功展示了 **「AI 賦能資安」** 的未來趨勢。透過 Docker 與 MCP 協議，我們不僅降低了資安維運的門檻，更大幅提升了威脅狩獵的效率，讓 **Chat-based SecOps** 成為現實。
+## 實作功能展示 (Core Features)
+
+### 自然語言資產清查 (Asset Inventory)
+*   **指令**：「幫我列出目前所有 Wazuh Agents 的連線狀態，有沒有機器掉線？」
+*   **成果**：AI 即時調用 API 工具，回報主機在線清單與 IP 位址，無需手動搜尋 Dashboard。
+
+### 對話式威脅狩獵 (Threat Hunting via Chat)
+*   **指令**：「分析最近一小時內 Level 10 以上的嚴重告警，並總結攻擊行為。」
+*   **成果**：AI 自動過濾大數據日誌，主動識別出 **CIS Benchmark 合規性弱點**，並分析出 SSH 權限與密碼策略風險。
+
+### 智能合規性建議
+*   **成果**：根據偵測到的合規性失敗項目，AI 會自動產出對應的 **Bash 修復指令**，展現 AI Agent 作為資安大腦的決策能力。
+
+---
+
+## 實作截圖證明 (Evidence)
+
+### 【證明 A】AI 成功調用底層工具並進行數據分析
+<img width="1919" height="1019" alt="Wazuh Tool Invocation" src="https://github.com/user-attachments/assets/dc799d28-af76-494c-a34f-ef1cb7ac4a23" />
+*描述：展示 Claude Agent 透過 MCP 協議調用 `get_wazuh_alert_summary` 進行實時威脅判讀。*
+
+### 【證明 B】資安漏洞總結與合規性分析
+<img width="1919" height="1015" alt="Compliance Review" src="https://github.com/user-attachments/assets/c711d52b-ceaa-47d9-be41-d911e8e9ccc5" />
+*描述：展示 AI 將複雜的 JSON 數據轉化為具體的 CIS Benchmark 修復建議報告。*
+
+---
+
+## 技術堆疊 (Tech Stack)
+*   **SIEM**: Wazuh (Indexer, Manager, Dashboard)
+*   **Bridge**: Wazuh MCP Server (Rust-based)
+*   **AI Engine**: Claude Desktop (Agent Mode)
+*   **Runtime**: Docker Desktop (WSL 2)
+
+## 總結
+本專案實作證明了 **AI 賦能資安 (AI-Driven SecOps)** 的可行性。透過 MCP 協議，我們成功降低了資安維運的門檻，讓複雜的威脅狩獵轉變為直觀、高效的對話式體驗。
