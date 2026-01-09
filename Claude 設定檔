@@ -1,15 +1,17 @@
 {
   "mcpServers": {
-    "wazuh-ai-agent": {
+    "wazuh-threat-hunter": {
       "command": "docker",
       "args": [
-        "run", "-i", "--rm",
-        "--network", "single-node_default",
-        "-e", "WAZUH_API_HOST=wazuh.manager",
+        "run",
+        "-i",
+        "--rm",
+        "--network", "host",
+        "-e", "WAZUH_API_HOST=127.0.0.1",
         "-e", "WAZUH_API_PORT=55000",
         "-e", "WAZUH_API_USERNAME=admin",
         "-e", "WAZUH_API_PASSWORD=SecretPassword",
-        "-e", "WAZUH_INDEXER_HOST=wazuh.indexer",
+        "-e", "WAZUH_INDEXER_HOST=127.0.0.1",
         "-e", "WAZUH_INDEXER_PORT=9200",
         "-e", "WAZUH_INDEXER_USERNAME=admin",
         "-e", "WAZUH_INDEXER_PASSWORD=SecretPassword",
