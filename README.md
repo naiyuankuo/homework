@@ -15,7 +15,7 @@
     *   使用 **Docker** 部署 Wazuh Indexer 與 Manager，作為數據採集與儲存的核心。
 2.  **Wazuh MCP Server**: 
     *   以 **Rust** 語言實作的高效能 MCP 伺服器，將 Wazuh REST API 轉化為 AI 可直接調用的 **Function Call**。
-3.  **Claude AI **: 
+3.  **Claude AI**: 
     *   透過 Claude Desktop 整合，將 LLM 賦予「理解資安情資」的能力，實現自動化分析與推理。
 
 ---
