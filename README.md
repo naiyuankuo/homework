@@ -57,13 +57,13 @@
 
 ## 實作截圖證明 (Evidence)
 
-### 【證明 A】AI 成功調用底層工具並進行數據分析
+### AI 成功調用底層工具並進行數據分析
 <img width="1919" height="1019" alt="Wazuh Tool Invocation" src="https://github.com/user-attachments/assets/dc799d28-af76-494c-a34f-ef1cb7ac4a23" />
 *描述：展示 Claude Agent 透過 MCP 協議調用 `get_wazuh_alert_summary` 進行實時威脅判讀。*
 
-### 【證明 B】資安漏洞總結與合規性分析
+### 資安漏洞總結與合規性分析
 <img width="1919" height="1015" alt="Compliance Review" src="https://github.com/user-attachments/assets/c711d52b-ceaa-47d9-be41-d911e8e9ccc5" />
-*描述：展示 AI 將複雜的 JSON 數據轉化為具體的 CIS Benchmark 修復建議報告。*
+*描述：展示 AI 將複雜的數據轉化為具體的修復建議報告。*
 
 ---
 
