@@ -3,9 +3,6 @@
 > **實作成果展示**：本專案成功實作了透過 **AI Agent (Claude)** 結合 **Model Context Protocol (MCP)** 協議，對 **Wazuh SIEM** 進行自然語言導向的資安防護監測與威脅狩獵。
 
 ---
-
-## 專案背景與目標
-在傳統資安維運 (SOC) 中，分析師必須手動查詢複雜的日誌與儀表板。本實作的核心目標是建立一套 **「AI-Security Bridge」**，將 Wazuh 的強大監控能力封裝為 AI 的實體工具。
 *   **核心技術**：Model Context Protocol (MCP)
 *   **目標**：讓管理員透過簡單的 **Chat (對話)** 即可獲取實時資產清查、漏洞分析與威脅報告。
 
