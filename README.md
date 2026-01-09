@@ -20,7 +20,7 @@
 
 ---
 
-## 🛠️ 技術實現細節 (Technical Implementation)
+## 技術實現細節 (Technical Implementation)
 
 ### 1. 容器化工具鏈開發 (Dockerfile)
 為確保 AI 調用工具的效能，採用了 **Rust 多階段編譯 (Multi-stage Build)**：
